@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include <fstream>
+std::ifstream infile("C:\\Users\\ibro991\\Desktop\\input.txt");
 typedef std::chrono::high_resolution_clock Clock;
 
 using namespace std;
@@ -20,59 +22,58 @@ int main()
 {
 	// Get the number of test cases to process
 	string input;
-	getline(cin, input);
+	getline(infile/*cin*/, input);
 	string::size_type sz;
-	int countCases = stoi(input, &sz);
+	int countCases = 2000;//stoi(input, &sz);
 
 	// Solve for each case.
 	for (size_t i = 0; i < countCases; i++)
 	{
 
 		// Read in the test case.
-		getline(cin, input);
+		getline(infile/*cin*/, input);
 
 		// Start timing to benchmark.
-		auto start = Clock::now();
+		//auto start = Clock::now();
 
 		// Solve it.
 		bool isSet = Solve(input);
 
-		auto end = Clock::now();
-		std::cout 
-            << "Took "
+		/*auto end = Clock::now();*/
+		/*std::// cout
+			<< "Took "
 			<< std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() / nanoseconds_per_ms
-            << " | "
+			<< " | "
 			<< std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
-            << " ms to solve." << std::endl;
+			<< " ms to solve." << std::endl;*/
 
 		// print "Set" or "No Set."
-		start = Clock::now();
+		/*start = Clock::now();*/
 		if (isSet)
 		{
-            output = "Word #" + to_string(i) + ": Set\n";
-            fwrite(output.data(), sizeof(char), output.size(), stdout);
+			output = "Word #" + to_string(i) + ": Set\n";
+			fwrite(output.data(), sizeof(char), output.size(), stdout);
 		}
 		else
 		{
-            output = "Word #" + to_string(i) + ": Set\n";
-            fwrite(output.data(), sizeof(char), output.size(), stdout);
-			//cout << "Word #" << to_string(i + 1) << ": No Set\n";
+			output = "Word #" + to_string(i) + ": No Set\n";
+			fwrite(output.data(), sizeof(char), output.size(), stdout);
 		}
-		end = Clock::now();
-		std::cout 
-            << "Took "
+		/*end = Clock::now();
+		std::// cout
+			<< "Took "
 			<< std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() / nanoseconds_per_ms
-            << " | "
-            << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
-			<< " ms to print output." << std::endl;
+			<< " | "
+			<< std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()
+			<< " ms to print output." << std::endl;*/
 	}
 }
 
 bool Solve(string input)
 {
-	 cout << "\n===================================\n";
-	 cout << "trying to solve " << input << "\n";
-	 cout << "===================================\n";
+	 // cout << "\n===================================\n";
+	 // cout << "trying to solve " << input << "\n";
+	 // cout << "===================================\n";
 	bool result = false;
 
 	int last = input.length() - 1;
@@ -96,74 +97,85 @@ bool Solve(string input)
 
 #pragma region VerbosePrinting
 			// Verbose printing.
-			 cout << "\n===================================\n\n";
-			 cout << "i:" << to_string(i) << "/" << to_string(len-1) << "\n\n";
-			 cout << "p:" << p << "\n";
-			 cout << "c:" << c << "\n";
-			 cout << "f:" << to_string(failures[i]) << "\n";
-			 cout << "open braces:" << to_string(openBraces) << "\n";
+			// cout << "\n===================================\n\n";
+			// cout << "i:" << to_string(i) << "/" << to_string(len - 1) << "\n\n";
+			// cout << "p:" << p << "\n";
+			// cout << "c:" << c << "\n";
+			// cout << "f:" << to_string(failures[i]) << "\n";
+			// cout << "open braces:" << to_string(openBraces) << "\n";
 
 
-			 cout << "failures: ";
-			for each (int f in failures)
-			{
-				 cout << to_string(f) << " ";
-			}
-			 cout << "\n";
-			 cout << "input:    ";
-			for each (char c in input)
-			{
-				 cout << c << " ";
-			}
-			 cout << "\n";
-			 cout << "solution: ";
-			for each (char c in solution)
-			{
-				 cout << c << " ";
-			}
-			 cout << "\n";
-			 cout << "          ";
-			for (size_t j = 0; j < input.length(); j++)
-			{
-				if (j == i) {  cout << "^ "; }
-				//else if (j == i - 1) cout << "^ ";
-				else {  cout << "  "; }
-			}
-			 cout << "\n";
-			 //End Verbose printing.
+			// cout << "failures: ";
+			//for each (int f in failures)
+			//{
+			//	// cout << to_string(f) << " ";
+			//}
+			//// cout << "\n";
+			//// cout << "input:    ";
+			//for each (char c in input)
+			//{
+			//	// cout << c << " ";
+			//}
+			//// cout << "\n";
+			//// cout << "solution: ";
+			//for each (char c in solution)
+			//{
+			//	// cout << c << " ";
+			//}
+			//// cout << "\n";
+			//// cout << "          ";
+			//for (size_t j = 0; j < input.length(); j++)
+			//{
+			//	if (j == i) { // cout << "^ "; }
+			//	//else if (j == i - 1) // cout << "^ ";
+			//	else { // cout << "  "; }
+			//}
+			// cout << "\n";
+			//End Verbose printing.
 
 #pragma endregion
 
 			// Assume that the current char is an atom and see if it works.
 			if (failures[i] == 0) // this is the first check we will for, hence checking if failures[i] is 0.
 			{
-				cout << "Does " << c << " work as an atom... ";
+				// cout << "Does " << c << " work as an atom... ";
 				if (p == atom // aa
 					|| p == '}') // }a
 				{ // Doesn't work as an atom.
 					failures[i]++;
-					cout << "No!\n";
+					// cout << "No!\n";
 				}
 				else // Works as an atom.
 				{
-					cout << "Yes!\n";
-					// Replace the current index in the solution with an 'a'
-					solution[i] = atom;
-					continue;
+					// Check if this is the last run through, as braces only matter at this point.
+					if (i == len - 1 && openBraces != 0)
+					{
+						// Braces don't match, fail.
+						// cout << "No. Last element and braces don't match, failing.\n";\
+							// increment failures.
+							failures[i]++;
+					}
+					else // No issues with braces. Change the solution string, incase it was overwritten by atom being possible.
+					{
+						// Replace the current index in the solution with an 'a'
+						solution[i] = atom;
+						// cout << "Yes!\n"; // No op.
+						continue;
+					}
 				}
 			}
 
 			// Assume the current char is what it says it is and see if it works.
 			if (failures[i] == 1)
 			{
-				cout << "Does " << c << " work as a structural element... ";
-				if (   (p == '}' &&   c == '{' )  // }{
-					|| (p == 'a' &&   c == '{' )  // a{
-					|| (p == '{' &&   c == ',' )  // {,
+				// cout << "Does " << c << " work as a structural element... ";
+				if ((p == '}' &&   c == '{')  // }{
+					|| (p == 'a' &&   c == '{')  // a{
+					|| (p == '{' &&   c == ',')  // {,
 					|| (p == ',' && !(c == '{'))) // ,, ,}
 				{ // Doesn't work as a structural element.
-					// Increment failures and continue within this loop.
-					 cout << "No!\n";
+				  // Increment failures and continue within this loop.
+					// cout << "No!\n";
 					failures[i]++;
 				}
 				else // Works as a structural element.
@@ -174,31 +186,53 @@ bool Solve(string input)
 					// Check that the number of open braces has not gone -ve.
 					if (openBraces < 0)
 					{
-						 cout << "No. Braces have gone negative.\n";
+						// cout << "No. Braces have gone negative.\n";
 						// Undo our change.
 						openBraces++;
 						// increment failures.
 						failures[i]++;
 					}
 					// Check if this is the last run through, as braces only matter at this point.
-					else if (i == len-1 && openBraces != 0)
+					if (i == len - 1)
 					{
-						// Braces don't match, fail.
-						 cout << "No. Last element and braces don't match, failing.\n";\
-						// increment failures.
-						failures[i]++;
+						if (openBraces != 0)
+						{
+							// Braces don't match, fail.
+							// cout << "No. Last element and braces don't match, failing.\n";
+							// increment failures.
+							failures[i]++;
+						}
+						else
+						{
+							solution[i] = c;
+							// cout << "Yes!\n"; // No op.
+						}
+						if (input[i] == ',')
+						{
+
+							// Braces don't match, fail.
+							// cout << "No. Last element cannot be ','. Failing.\n";
+							// increment failures.
+							failures[i]++;
+						}
+						else
+						{
+							solution[i] = c;
+							// cout << "Yes!\n"; // No op.
+						}
+
 					}
 					else // No issues with braces. Change the solution string, incase it was overwritten by atom being possible.
 					{
 						solution[i] = c;
-						 cout << "Yes!\n"; // No op.
+						// cout << "Yes!\n"; // No op.
 					}
 				}
 			}
 
-			if(failures[i] == 2) // Didn't work as an atom or a structural element.
+			if (failures[i] == 2) // Didn't work as an atom or a structural element.
 			{
-				cout << "Didn't work as an atom or structural element.\n";
+				// cout << "Didn't work as an atom or structural element.\n";
 				if (i == 1) // Was this our first element.
 				{
 					// For 1st element: if both atom and structural failed then quit reporting not a set.
@@ -219,7 +253,7 @@ bool Solve(string input)
 				}
 			}
 		}
-		cout << "Solution: " << solution << "\n";
+		// cout << "Solution: " << solution << "\n";
 		return true;
 	}
 	else // Not in correct form, return false.
